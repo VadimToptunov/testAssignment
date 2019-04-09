@@ -44,7 +44,7 @@ class YaMainPageHelper:
         Создать новое письмо путем нажатия кнопки "Написать" в почтовом ящике
         :return:
         """
-        write_button = self.ysh.by_linktext("Написать")
+        write_button = self.ysh.by_xpath("//*[@class='svgicon svgicon-mail--ComposeButton']")
         self.ysh.element_click(write_button)
 
     def fill_letter(self):
@@ -54,7 +54,7 @@ class YaMainPageHelper:
         :return:
         """
         self.ysh.element_send_keys(self.ysh.by_name("to"), self.randomizer(6))
-        topic = self.ysh.by_name("subj-27e47b73cd17a5638fb893b7f2b9a908b86e3ef1")
+        topic = self.ysh.by_xpath("//*[contains(@name, 'subj-')]")
         self.ysh.element_send_keys(topic, self.topic)
         letter = self.ysh.by_xpath("//*[@role='textbox']")
         self.ysh.element_send_keys(letter, self.randomizer(212))
@@ -79,7 +79,6 @@ class YaMainPageHelper:
         Перейти на страницу с черновиками.
         :return:
         """
-        #url = str(self.ysh.get_url())
         result = re.search(r'uid=\d+', self.ysh.get_url())
         uid = result.group(0)
         self.ysh.driver.get(f"https://mail.yandex.ru/?{uid}#draft")
